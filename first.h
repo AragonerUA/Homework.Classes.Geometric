@@ -1,8 +1,10 @@
 #pragma once
-#include <vector>
+
 #include <iostream>
+#include <vector>
 #include <cmath>
 #include <algorithm>
+#include <stdlib.h>
 namespace functions{
     class IGeoFig {
     public :
@@ -33,7 +35,7 @@ namespace functions{
         virtual unsigned int size () = 0 ;
     } ;
 
-    class BaseFigure:
+    class MyFigure:
             public IGeoFig,
             public CVector2D,
             public IPhysObject,
@@ -42,7 +44,7 @@ namespace functions{
             public BaseCObject {
     };
 
-    struct Rectangle: BaseFigure {
+    struct Rectangle: MyFigure {
     private:
         std::pair<double, double> first_coord; //левые верхние
         std::pair<double, double> second_coord; //правые нижние
@@ -64,7 +66,7 @@ namespace functions{
     };
 
 
-    struct Segment: BaseFigure {
+    struct Segment: MyFigure {
     private:
         std::pair<double, double> first_c;
         std::pair<double, double> second_c;
@@ -85,7 +87,7 @@ namespace functions{
 
     class DialogueMenu {
     private:
-        std::vector <BaseFigure*> pointers;
+        std::vector <MyFigure*> figures;
         int flag;
         double summary_perim = 0;
         double summary_sq = 0;
@@ -97,14 +99,14 @@ namespace functions{
         void menufunction();
         void allcommands();
         template<class T>
-        void createFigure() {
+        void newfigure() {
             auto* figure = new T();
             figure->initFromDialog();
-            summary_sq += figure->square();
-            summary_perim += figure->perimeter();
-            summary_weight += figure->mass();
+            summary_sq += (figure->square());
+            summary_perim += (figure->perimeter());
+            summary_weight += (figure->mass());
             summary_size += (figure->size());
-            pointers.push_back((BaseFigure*)figure);
+            figures.push_back((MyFigure*)figure);
         }
     };
 }
