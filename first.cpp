@@ -34,10 +34,10 @@ namespace functions {
     };
 
     CVector2D Rectangle::position() {
-        CVector2D answer{};
-        answer.x = first_coord.first;
-        answer.y = second_coord.second;
-        return answer;
+        CVector2D result{};
+        result.x = first_coord.first;
+        result.y = second_coord.second;
+        return result;
     };
 
     bool Rectangle::operator==(const IPhysObject &obj) const {
@@ -93,10 +93,10 @@ namespace functions {
     };
 
     CVector2D Segment::position() {
-        CVector2D answer;
-        answer.x = first_c.first;
-        answer.y = second_c.second;
-        return answer;
+        CVector2D result;
+        result.x = first_c.first;
+        result.y = second_c.second;
+        return result;
     };
 
     bool Segment::operator==(const IPhysObject &obj) const {
@@ -126,61 +126,59 @@ namespace functions {
     };
 
     void DialogueMenu::allcommands() {
-        std::cout << "Choose type of the operation:\n";
-        std::cout << "1 - Add Rectangle\n";
-        std::cout << "2 - Add Segment\n";
+        std::cout << "Choose type of the command:\n";
+        std::cout << "1 - Add a new rectangle\n";
+        std::cout << "2 - Add a new segment\n";
         std::cout << "3 - Show all figures\n";
-        std::cout << "4 - Show total square of figures\n";
-        std::cout << "5 - Show total perimeter of figures\n";
+        std::cout << "4 - Show total square of all figures\n";
+        std::cout << "5 - Show total perimeter of all figures\n";
         std::cout << "6 - Show center weight of all figures\n";
-        std::cout << "7 - Show total memory that objects occupy\n";
-        std::cout << "8 - Sort all figures by mass\n";
-        std::cout << "9 - End of program \n\n";
+        std::cout << "7 - Show total memory that all figures occupy\n";
+        std::cout << "8 - Sort all figures by weight\n";
+        std::cout << "9 - End of the program \n\n";
     };
 
     void DialogueMenu::menufunction() {
         while(true) {
             DialogueMenu::allcommands();
-            std::cout << "Enter a type of the operation: ";
+            std::cout << "Enter a type of the command: ";
             std::cin >> flag;
             if (flag == 1) {
-                createFigure<Rectangle>();
-                continue;
+                newfigure<Rectangle>();
             }
             else if (flag == 2) {
-                createFigure <Segment>();
-                continue;
+                newfigure<Segment>();
             }
             else if (flag == 3) {
                 std::cout << "List of figures: " << std::endl;
-                for (int i = 0; i < pointers.size(); i++) {
-                    std::cout << "Number: " << i + 1 << std::endl;
+                for (int i = 0; i < figures.size(); i++) {
+                    std::cout << "Number of figure: " << i + 1 << std::endl;
                     std::cout << "          " << std::endl;
-                    pointers[i]->draw();
+                    figures[i]->draw();
                     std::cout << "          " << std::endl;
                 }
                 std::cout << std::endl << "__________" << std::endl;
             }
             else if (flag == 4) {
-                std::cout << "Summary square:" << std::endl;
+                std::cout << "Summary square of all figures:" << std::endl;
                 std::cout << summary_sq << std::endl;
             }
             else if (flag == 5) {
-                std::cout << "Summary perimeter:" << std::endl;
+                std::cout << "Summary perimeter of all figures:" << std::endl;
                 std::cout << summary_perim << std::endl;
             }
             else if (flag == 6) {
-                std::cout << "Summary center mass:" << std::endl;
+                std::cout << "Summary center weight of all figures:" << std::endl;
                 std::cout << summary_weight << std::endl;
             }
             else if (flag == 7) {
-                std::cout << "Summary memory used:" << std::endl;
+                std::cout << "Summary memory of all figures used:" << std::endl;
                 std::cout << summary_size << std::endl;
             }
             else if (flag == 8) {
-                sort(pointers.begin(), pointers.end(),
-                     [](BaseFigure *lhs, BaseFigure *rhs) {
-                         return *lhs < *rhs;
+                sort(figures.begin(), figures.end(),
+                     [](MyFigure *first, MyFigure *second) {
+                         return *first < *second;
                      }
                 );
             }
@@ -188,7 +186,7 @@ namespace functions {
                 exit(0);
             }
             else {
-                std::cout << "Unknown command! " << std::endl;
+                std::cout << "Unknown command!" << std::endl;
             }
         }
     };
